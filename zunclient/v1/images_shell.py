@@ -24,7 +24,7 @@ def _show_image(image):
 @utils.arg('host',
            metavar='<host>',
            help='Name or UUID of the host')
-def do_pull(cs, args):
+def do_image_pull(cs, args):
     """Pull an image into a host."""
     opts = {}
     opts['repo'] = args.image
