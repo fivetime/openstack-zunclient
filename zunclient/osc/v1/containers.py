@@ -177,6 +177,49 @@ class CreateContainer(command.ShowOne):
             default=None,
             help='The disk size in GiB for per container.')
         parser.add_argument(
+            '--pids-limit',
+            metavar='<pids_limit>',
+            type=int,
+            default=None,
+            help='Maximum number of processes in the container (8-32768).')
+        parser.add_argument(
+            '--memory-swap',
+            metavar='<memory_swap>',
+            type=int,
+            default=None,
+            help='Memory+swap total in MB. Pass the memory size itself to '
+                 'forbid swap; -1 for unlimited swap.')
+        parser.add_argument(
+            '--blkio-weight',
+            metavar='<blkio_weight>',
+            type=int,
+            default=None,
+            help='Relative block IO weight (10-1000).')
+        parser.add_argument(
+            '--device-read-bps',
+            metavar='<bytes_per_sec>',
+            type=int,
+            default=None,
+            help='Read rate cap (bytes/s) on the rootfs backing device.')
+        parser.add_argument(
+            '--device-write-bps',
+            metavar='<bytes_per_sec>',
+            type=int,
+            default=None,
+            help='Write rate cap (bytes/s) on the rootfs backing device.')
+        parser.add_argument(
+            '--device-read-iops',
+            metavar='<iops>',
+            type=int,
+            default=None,
+            help='Read IOPS cap on the rootfs backing device.')
+        parser.add_argument(
+            '--device-write-iops',
+            metavar='<iops>',
+            type=int,
+            default=None,
+            help='Write IOPS cap on the rootfs backing device.')
+        parser.add_argument(
             '--availability-zone',
             metavar='<availability_zone>',
             default=None,
@@ -264,6 +307,13 @@ class CreateContainer(command.ShowOne):
         opts['runtime'] = parsed_args.runtime
         opts['hostname'] = parsed_args.hostname
         opts['disk'] = parsed_args.disk
+        opts['pids_limit'] = parsed_args.pids_limit
+        opts['memory_swap'] = parsed_args.memory_swap
+        opts['blkio_weight'] = parsed_args.blkio_weight
+        opts['device_read_bps'] = parsed_args.device_read_bps
+        opts['device_write_bps'] = parsed_args.device_write_bps
+        opts['device_read_iops'] = parsed_args.device_read_iops
+        opts['device_write_iops'] = parsed_args.device_write_iops
         opts['availability_zone'] = parsed_args.availability_zone
         if parsed_args.auto_heal:
             opts['auto_heal'] = parsed_args.auto_heal
@@ -882,6 +932,49 @@ class RunContainer(command.ShowOne):
             default=None,
             help='The disk size in GiB for per container.')
         parser.add_argument(
+            '--pids-limit',
+            metavar='<pids_limit>',
+            type=int,
+            default=None,
+            help='Maximum number of processes in the container (8-32768).')
+        parser.add_argument(
+            '--memory-swap',
+            metavar='<memory_swap>',
+            type=int,
+            default=None,
+            help='Memory+swap total in MB. Pass the memory size itself to '
+                 'forbid swap; -1 for unlimited swap.')
+        parser.add_argument(
+            '--blkio-weight',
+            metavar='<blkio_weight>',
+            type=int,
+            default=None,
+            help='Relative block IO weight (10-1000).')
+        parser.add_argument(
+            '--device-read-bps',
+            metavar='<bytes_per_sec>',
+            type=int,
+            default=None,
+            help='Read rate cap (bytes/s) on the rootfs backing device.')
+        parser.add_argument(
+            '--device-write-bps',
+            metavar='<bytes_per_sec>',
+            type=int,
+            default=None,
+            help='Write rate cap (bytes/s) on the rootfs backing device.')
+        parser.add_argument(
+            '--device-read-iops',
+            metavar='<iops>',
+            type=int,
+            default=None,
+            help='Read IOPS cap on the rootfs backing device.')
+        parser.add_argument(
+            '--device-write-iops',
+            metavar='<iops>',
+            type=int,
+            default=None,
+            help='Write IOPS cap on the rootfs backing device.')
+        parser.add_argument(
             '--availability-zone',
             metavar='<availability_zone>',
             default=None,
@@ -969,6 +1062,13 @@ class RunContainer(command.ShowOne):
         opts['runtime'] = parsed_args.runtime
         opts['hostname'] = parsed_args.hostname
         opts['disk'] = parsed_args.disk
+        opts['pids_limit'] = parsed_args.pids_limit
+        opts['memory_swap'] = parsed_args.memory_swap
+        opts['blkio_weight'] = parsed_args.blkio_weight
+        opts['device_read_bps'] = parsed_args.device_read_bps
+        opts['device_write_bps'] = parsed_args.device_write_bps
+        opts['device_read_iops'] = parsed_args.device_read_iops
+        opts['device_write_iops'] = parsed_args.device_write_iops
         opts['availability_zone'] = parsed_args.availability_zone
         if parsed_args.auto_heal:
             opts['auto_heal'] = parsed_args.auto_heal
