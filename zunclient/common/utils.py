@@ -221,10 +221,14 @@ def parse_mounts(mounts):
                "or use --mount size=<size>,destination=<path> to create "
                "a new volume and mount to the container, "
                "or use --mount type=bind,source=<file>,destination=<path> "
-               "to inject file into a path in the container.")
+               "to inject file into a path in the container. A volume "
+               "mount may also carry io ceilings: "
+               "read_bps=,write_bps=,read_iops=,write_iops=.")
     parsed_mounts = []
     for mount in mounts:
-        keys = ["source", "destination", "size", "type"]
+        keys = ["source", "destination", "size", "type",
+                "read_bps", "write_bps", "read_iops", "write_iops"]
+        int_keys = ("read_bps", "write_bps", "read_iops", "write_iops")
         mount_info = {}
         for mnt in mount.split(","):
             try:
@@ -250,6 +254,14 @@ def parse_mounts(mounts):
         if type not in ('volume', 'bind'):
             mnt = "type=%s" % type
             raise apiexec.CommandError(err_msg % mnt)
+
+        for k in int_keys:
+            if k in mount_info:
+                try:
+                    mount_info[k] = int(mount_info[k])
+                except ValueError:
+                    raise apiexec.CommandError(err_msg % ("%s=%s" % (
+                        k, mount_info[k])))
 
         if type == 'bind':
             # TODO(hongbin): handle the case that 'source' is a directory
