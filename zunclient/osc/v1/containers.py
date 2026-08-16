@@ -183,12 +183,22 @@ class CreateContainer(command.ShowOne):
             default=None,
             help='Maximum number of processes in the container (8-32768).')
         parser.add_argument(
+            '--swap',
+            metavar='<swap>',
+            type=int,
+            default=None,
+            help='Swap in MB the container may use on top of its memory. '
+                 '0 forbids swap. Needs --memory, and cannot be combined '
+                 'with --memory-swap.')
+        parser.add_argument(
             '--memory-swap',
             metavar='<memory_swap>',
             type=int,
             default=None,
-            help='Memory+swap total in MB. Pass the memory size itself to '
-                 'forbid swap; -1 for unlimited swap.')
+            help='Memory plus swap, in MB, as one total -- what the runtime '
+                 'itself takes. Equal to --memory forbids swap; -1 allows '
+                 'unlimited swap. Prefer --swap unless you are carrying a '
+                 'number over from docker.')
         parser.add_argument(
             '--blkio-weight',
             metavar='<blkio_weight>',
@@ -308,7 +318,8 @@ class CreateContainer(command.ShowOne):
         opts['hostname'] = parsed_args.hostname
         opts['disk'] = parsed_args.disk
         opts['pids_limit'] = parsed_args.pids_limit
-        opts['memory_swap'] = parsed_args.memory_swap
+        opts['memory_swap'] = zun_utils.resolve_memory_swap(
+            parsed_args.memory, parsed_args.memory_swap, parsed_args.swap)
         opts['blkio_weight'] = parsed_args.blkio_weight
         opts['device_read_bps'] = parsed_args.device_read_bps
         opts['device_write_bps'] = parsed_args.device_write_bps
@@ -938,12 +949,22 @@ class RunContainer(command.ShowOne):
             default=None,
             help='Maximum number of processes in the container (8-32768).')
         parser.add_argument(
+            '--swap',
+            metavar='<swap>',
+            type=int,
+            default=None,
+            help='Swap in MB the container may use on top of its memory. '
+                 '0 forbids swap. Needs --memory, and cannot be combined '
+                 'with --memory-swap.')
+        parser.add_argument(
             '--memory-swap',
             metavar='<memory_swap>',
             type=int,
             default=None,
-            help='Memory+swap total in MB. Pass the memory size itself to '
-                 'forbid swap; -1 for unlimited swap.')
+            help='Memory plus swap, in MB, as one total -- what the runtime '
+                 'itself takes. Equal to --memory forbids swap; -1 allows '
+                 'unlimited swap. Prefer --swap unless you are carrying a '
+                 'number over from docker.')
         parser.add_argument(
             '--blkio-weight',
             metavar='<blkio_weight>',
@@ -1063,7 +1084,8 @@ class RunContainer(command.ShowOne):
         opts['hostname'] = parsed_args.hostname
         opts['disk'] = parsed_args.disk
         opts['pids_limit'] = parsed_args.pids_limit
-        opts['memory_swap'] = parsed_args.memory_swap
+        opts['memory_swap'] = zun_utils.resolve_memory_swap(
+            parsed_args.memory, parsed_args.memory_swap, parsed_args.swap)
         opts['blkio_weight'] = parsed_args.blkio_weight
         opts['device_read_bps'] = parsed_args.device_read_bps
         opts['device_write_bps'] = parsed_args.device_write_bps
