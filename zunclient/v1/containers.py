@@ -28,7 +28,7 @@ CREATION_ATTRIBUTES = ['name', 'image', 'command', 'cpu', 'memory',
                        'availability_zone', 'auto_heal', 'privileged',
                        'exposed_ports', 'healthcheck', 'registry', 'tty',
                        'host', 'entrypoint',
-                       'pids_limit', 'memory_swap', 'blkio_weight',
+                       'pids_limit', 'swap', 'blkio_weight',
                        'device_read_bps', 'device_write_bps',
                        'device_read_iops', 'device_write_iops']
 

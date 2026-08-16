@@ -215,30 +215,6 @@ def parse_entrypoint(entrypoint):
     return shlex.split(entrypoint)
 
 
-def resolve_memory_swap(memory, memory_swap, swap):
-    """Turn whichever of the two the caller used into the one total.
-
-    The runtime takes memory and swap as a single total, which is a fine
-    thing for a runtime and a poor thing to ask a person for: the number
-    that means "no swap" is the memory limit, and the number just below it
-    is not a small allowance but a contradiction. --swap asks for the swap
-    itself and does the addition here; --memory-swap stays for anyone
-    carrying a figure over from docker.
-    """
-    if swap is None:
-        return memory_swap
-    if memory_swap is not None:
-        raise apiexec.CommandError(
-            'Use either --swap or --memory-swap, not both: one is the swap, '
-            'the other is memory plus swap as a total.')
-    if memory is None:
-        raise apiexec.CommandError(
-            '--swap needs --memory: swap is expressed to the runtime as a '
-            'total that includes the memory limit, so there is nothing to '
-            'add it to.')
-    return int(memory) + int(swap)
-
-
 def parse_mounts(mounts):
     err_msg = ("Invalid mounts argument '%s'. mounts arguments must be of "
                "the form --mount source=<volume>,destination=<path>, "
