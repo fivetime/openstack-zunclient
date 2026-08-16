@@ -1171,6 +1171,13 @@ class UpdateContainer(command.ShowOne):
             metavar='<memory>',
             help='The container memory size in MiB')
         parser.add_argument(
+            '--swap',
+            metavar='<swap>',
+            type=int,
+            help='Swap in MB on top of the memory limit. 0 forbids swap, '
+                 '-1 allows it without limit. Can be changed on its own; '
+                 'the memory limit stays as it is.')
+        parser.add_argument(
             '--name',
             metavar='<name>',
             help='The new name of container to update')
@@ -1192,6 +1199,7 @@ class UpdateContainer(command.ShowOne):
         container = parsed_args.container
         opts = {}
         opts['memory'] = parsed_args.memory
+        opts['swap'] = parsed_args.swap
         opts['cpu'] = parsed_args.cpu
         opts['name'] = parsed_args.name
         if 'auto_heal' in parsed_args and parsed_args.auto_heal:
