@@ -30,7 +30,11 @@ CREATION_ATTRIBUTES = ['name', 'image', 'command', 'cpu', 'memory',
                        'host', 'entrypoint',
                        'pids_limit', 'swap', 'blkio_weight',
                        'device_read_bps', 'device_write_bps',
-                       'device_read_iops', 'device_write_iops']
+                       'device_read_iops', 'device_write_iops',
+                       # A container that does not name its resolver has
+                       # the runtime answer from its own namespace, where
+                       # the names on the tenant's network do not exist.
+                       'dns', 'dns_search']
 
 
 class Container(base.Resource):
