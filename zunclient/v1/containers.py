@@ -238,7 +238,15 @@ class ContainerManager(base.Manager):
                             qparams={'path': path},
                             body={'data': data})
 
-    def stats(self, id):
+    def stats(self, id, raw=False):
+        """Figures worked out from the counters, or the counters themselves.
+
+        `raw` asks for what the percentages were computed from, which is
+        what a caller doing its own arithmetic needs. Since API 1.48.
+        """
+        if raw:
+            return self._action(id, '/stats', method='GET',
+                                qparams={'raw': 'true'})[1]
         return self._action(id, '/stats', method='GET')[1]
 
     def commit(self, id, repository, tag=None):
