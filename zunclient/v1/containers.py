@@ -34,7 +34,12 @@ CREATION_ATTRIBUTES = ['name', 'image', 'command', 'cpu', 'memory',
                        # A container that does not name its resolver has
                        # the runtime answer from its own namespace, where
                        # the names on the tenant's network do not exist.
-                       'dns', 'dns_search']
+                       'dns', 'dns_search',
+                       # Which user the container's process runs as. Left
+                       # out of this list, a request for one is refused
+                       # here and never reaches the API -- the container
+                       # would have run as root instead.
+                       'user']
 
 
 class Container(base.Resource):
