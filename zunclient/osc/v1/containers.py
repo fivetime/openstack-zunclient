@@ -116,20 +116,21 @@ class CreateContainer(command.ShowOne):
             action='store_true',
             default=False,
             help='Keep STDIN open even if not attached, allocate a pseudo-TTY')
-        secgroup_expose_port_args = parser.add_mutually_exclusive_group()
-        secgroup_expose_port_args.add_argument(
+        parser.add_argument(
             '--security-group',
             metavar='<security_group>',
             action='append', default=[],
             help='The name of security group for the container. '
                  'May be used multiple times.')
-        secgroup_expose_port_args.add_argument(
+        parser.add_argument(
             '--expose-port',
             action='append',
             default=[],
             metavar='<port>',
-            help='Expose container port(s) to outside (format: '
-                 '<port>[/<protocol>]).')
+            help='A port the container declares it listens on, as docker\'s '
+                 '--expose does (format: <port>[/<protocol>]). Recorded '
+                 'and shown; it opens nothing -- reachability is decided '
+                 'by --security-group alone.')
         parser.add_argument(
             'command',
             metavar='<command>',
@@ -872,20 +873,21 @@ class RunContainer(command.ShowOne):
             action='store_true',
             default=False,
             help='Keep STDIN open even if not attached, allocate a pseudo-TTY')
-        secgroup_expose_port_args = parser.add_mutually_exclusive_group()
-        secgroup_expose_port_args.add_argument(
+        parser.add_argument(
             '--security-group',
             metavar='<security_group>',
             action='append', default=[],
             help='The name of security group for the container. '
                  'May be used multiple times.')
-        secgroup_expose_port_args.add_argument(
+        parser.add_argument(
             '--expose-port',
             action='append',
             default=[],
             metavar='<port>',
-            help='Expose container port(s) to outside (format: '
-                 '<port>[/<protocol>]).')
+            help='A port the container declares it listens on, as docker\'s '
+                 '--expose does (format: <port>[/<protocol>]). Recorded '
+                 'and shown; it opens nothing -- reachability is decided '
+                 'by --security-group alone.')
         parser.add_argument(
             'command',
             metavar='<command>',

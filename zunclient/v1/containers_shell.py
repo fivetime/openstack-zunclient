@@ -57,20 +57,19 @@ def _show_container(container):
     required=False, metavar='<restart>',
     help='Restart policy to apply when a container exits'
          '(no, on-failure[:max-retry], always, unless-stopped)')
-@utils.exclusive_arg(
-    'secgroup_expose_port',
-    '--security-group',
-    metavar='<security-group>',
-    action='append', default=[],
-    help='The name of security group for the container. '
-         'May be used multiple times.')
-@utils.exclusive_arg(
-    'secgroup_expose_port',
-    '-p', '--expose-port',
-    action='append',
-    default=[],
-    metavar='<port>',
-    help='Expose container port(s) to outside (format: <port>[/<protocol>])')
+@utils.arg('--security-group',
+           metavar='<security-group>',
+           action='append', default=[],
+           help='The name of security group for the container. '
+                'May be used multiple times.')
+@utils.arg('-p', '--expose-port',
+           action='append',
+           default=[],
+           metavar='<port>',
+           help='A port the container declares it listens on, as docker\'s '
+                '--expose does (format: <port>[/<protocol>]). Recorded and '
+                'shown; it opens nothing -- reachability is decided by '
+                '--security-group alone.')
 @utils.arg('-n', '--name',
            metavar='<name>',
            help='name of the container')
@@ -593,20 +592,19 @@ def do_kill(cs, args):
     required=False, metavar='<restart>',
     help='Restart policy to apply when a container exits'
          '(no, on-failure[:max-retry], always, unless-stopped)')
-@utils.exclusive_arg(
-    'secgroup_expose_port',
-    '--security-group',
-    metavar='<security-group>',
-    action='append', default=[],
-    help='The name of security group for the container. '
-         'May be used multiple times.')
-@utils.exclusive_arg(
-    'secgroup_expose_port',
-    '-p', '--expose-port',
-    action='append',
-    default=[],
-    metavar='<port>',
-    help='Expose container port(s) to outside (format: <port>[/<protocol>])')
+@utils.arg('--security-group',
+           metavar='<security-group>',
+           action='append', default=[],
+           help='The name of security group for the container. '
+                'May be used multiple times.')
+@utils.arg('-p', '--expose-port',
+           action='append',
+           default=[],
+           metavar='<port>',
+           help='A port the container declares it listens on, as docker\'s '
+                '--expose does (format: <port>[/<protocol>]). Recorded and '
+                'shown; it opens nothing -- reachability is decided by '
+                '--security-group alone.')
 @utils.arg('-n', '--name',
            metavar='<name>',
            help='name of the container')
