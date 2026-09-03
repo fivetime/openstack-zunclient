@@ -642,7 +642,7 @@ class ContainerManagerTest(testtools.TestCase):
              % (CONTAINER1['id'], tty_height, tty_width),
              {'Content-Length': '0'}, None)
         ])
-        self.assertTrue(self.api.calls in expects)
+        self.assertIn(self.api.calls, expects)
         self.assertIsNone(containers)
 
     def test_containers_top(self):

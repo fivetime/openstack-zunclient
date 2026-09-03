@@ -1,15 +1,8 @@
-========================
-Team and repository tags
-========================
+====================================================
+Python bindings to the OpenStack Container API (Zun)
+====================================================
 
 .. image:: https://governance.openstack.org/tc/badges/python-zunclient.svg
-    :target: https://governance.openstack.org/tc/reference/tags/index.html
-
-.. Change things from this point on
-
-==============================================
-Python bindings to the OpenStack Container API
-==============================================
 
 .. image:: https://img.shields.io/pypi/v/python-zunclient.svg
     :target: https://pypi.org/project/python-zunclient/
@@ -34,4 +27,4 @@ and a command-line tool (zun).
 .. _Blueprints: https://blueprints.launchpad.net/python-zunclient
 .. _Bugs: https://bugs.launchpad.net/python-zunclient
 .. _Source: https://opendev.org/openstack/python-zunclient
-.. _How to Contribute: https://docs.openstack.org/infra/manual/developers.html
+.. _How to Contribute: https://docs.opendev.org/opendev/infra-manual/latest/developers.html
