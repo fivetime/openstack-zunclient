@@ -27,8 +27,8 @@ class TestParameters(testtools.TestCase):
         super(TestParameters, self).setUp()
         self.api = mock.Mock()
         self.api.json_request.return_value = (mock.Mock(), None)
+        self.api.api_version = api_versions.APIVersion('1.54')
         self.mgr = containers.ContainerManager(self.api)
-        self.mgr.api_version = api_versions.APIVersion('1.54')
 
     def _query(self):
         url = self.api.json_request.call_args[0][1]
