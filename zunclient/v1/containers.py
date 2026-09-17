@@ -165,9 +165,13 @@ class ContainerManager(base.Manager):
     def start(self, id):
         return self._action(id, '/start')
 
-    def stop(self, id, timeout):
-        return self._action(id, '/stop',
-                            qparams={'timeout': timeout})
+    def stop(self, id, timeout, signal=None):
+        qparams = {'timeout': timeout}
+        # Microversion 1.54: the signal sent first. Left out when unset,
+        # so an older server is asked what it always was.
+        if signal:
+            qparams['signal'] = signal
+        return self._action(id, '/stop', qparams=qparams)
 
     def rebuild(self, id, **kwargs):
         return self._action(id, '/rebuild',
@@ -241,12 +245,19 @@ class ContainerManager(base.Manager):
             res['data'] = res['data'].encode()
         return res
 
-    def put_archive(self, id, path, data):
+    def put_archive(self, id, path, data, copy_uidgid=False,
+                    no_overwrite_dir_non_dir=False):
         # API version 1.25 or later will expect Base64-encoded data
         if self.api_version >= api_versions.APIVersion("1.25"):
             data = utils.encode_file_data(data)
+        qparams = {'path': path}
+        # Microversion 1.54, sent only when asked for.
+        if copy_uidgid:
+            qparams['copy_uidgid'] = 'true'
+        if no_overwrite_dir_non_dir:
+            qparams['no_overwrite_dir_non_dir'] = 'true'
         return self._action(id, '/put_archive',
-                            qparams={'path': path},
+                            qparams=qparams,
                             body={'data': data})
 
     def stats(self, id, raw=False):
@@ -260,13 +271,22 @@ class ContainerManager(base.Manager):
                                 qparams={'raw': 'true'})[1]
         return self._action(id, '/stats', method='GET')[1]
 
-    def commit(self, id, repository, tag=None):
+    def commit(self, id, repository, tag=None, message=None, author=None,
+               changes=None, pause=None):
+        qparams = {'repository': repository}
         if tag is not None:
-            return self._action(id, '/commit', qparams={
-                                'repository': repository, 'tag': tag})[1]
-        else:
-            return self._action(id, '/commit', qparams={
-                                'repository': repository})[1]
+            qparams['tag'] = tag
+        # Microversion 1.54, each sent only when given. `changes` is a
+        # list of Dockerfile instructions and travels one per line.
+        if message:
+            qparams['message'] = message
+        if author:
+            qparams['author'] = author
+        if changes:
+            qparams['changes'] = '\n'.join(changes)
+        if pause is not None:
+            qparams['pause'] = 'true' if pause else 'false'
+        return self._action(id, '/commit', qparams=qparams)[1]
 
     def add_security_group(self, id, security_group):
         return self._action(id, '/add_security_group',
