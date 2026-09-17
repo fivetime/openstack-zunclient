@@ -39,7 +39,13 @@ CREATION_ATTRIBUTES = ['name', 'image', 'command', 'cpu', 'memory',
                        # out of this list, a request for one is refused
                        # here and never reaches the API -- the container
                        # would have run as root instead.
-                       'user']
+                       'user',
+                       # Microversion 1.53: create-time options docker
+                       # has. Refused here, each reached the API as a
+                       # list of allowed keys and nothing else.
+                       'extra_hosts', 'dns_options', 'ulimits', 'shm_size',
+                       'read_only', 'init', 'group_add', 'oom_score_adj',
+                       'tmpfs']
 
 
 class Container(base.Resource):
